@@ -1,0 +1,127 @@
+/* ============================================================
+   STYLE.CSS — reset, design tokens, base typography
+   ============================================================
+
+   TOKEN SYSTEM
+   Color:
+     --color-abyss     #073042  (teks utama, latar gelap)
+     --color-ocean      #0E6BA8  (biru laut utama)
+     --color-lagoon     #4FC3E8  (turquoise terang, aksen)
+     --color-sun        #FFC93C  (kuning Krusty Krab / SpongeBob)
+     --color-sand       #F6E3B4  (pasir, warna sekunder / kartu)
+     --color-coral      #FF6F59  (aksen bahaya / salah)
+     --color-seagrass   #2FA88A  (aksen sukses / benar)
+   Type:
+     Display / heading -> "Baloo 2" (bulat, playful, tebal)
+     Body / UI text    -> "Quicksand" (rounded sans, mudah dibaca)
+============================================================ */
+
+:root {
+  --color-abyss: #073042;
+  --color-ocean: #0e6ba8;
+  --color-ocean-deep: #084b78;
+  --color-lagoon: #4fc3e8;
+  --color-sun: #ffc93c;
+  --color-sun-dark: #e8a800;
+  --color-sand: #f6e3b4;
+  --color-sand-dark: #e9cd8c;
+  --color-coral: #ff6f59;
+  --color-seagrass: #2fa88a;
+  --color-white: #fffdf6;
+
+  --color-itil: #4fc3e8;
+  --color-iso: #ff6f59;
+  --color-coso: #2fa88a;
+  --color-cobit: #ffc93c;
+
+  --font-display: "Baloo 2", system-ui, sans-serif;
+  --font-body: "Quicksand", system-ui, sans-serif;
+
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+
+  --shadow-soft: 0 12px 30px rgba(7, 48, 66, 0.18);
+  --shadow-pop: 0 6px 0 rgba(7, 48, 66, 0.25);
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-abyss);
+  background: linear-gradient(
+    180deg,
+    var(--color-lagoon) 0%,
+    var(--color-ocean) 55%,
+    var(--color-ocean-deep) 100%
+  );
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  margin: 0;
+  line-height: 1.15;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Visible keyboard focus for accessibility */
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--color-abyss);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+#app {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+}

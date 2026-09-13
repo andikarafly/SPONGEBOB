@@ -1,0 +1,430 @@
+/* ============================================================
+   MASCOT-HUD.CSS
+   Style untuk HUD skor + kesehatan Krusty Krab, maskot pemandu
+   SpongeBob, container ilustrasi SVG karakter, dan efek feedback
+   visual pada kuis (bubble burst / shake).
+   File baru — tidak mengubah file CSS yang sudah ada.
+   ============================================================ */
+
+/* ---------- CONTAINER UNIVERSAL UNTUK GAMBAR KARAKTER ----------
+   Dipakai di portrait dialog/misi/kuis, badge title screen, dan
+   avatar maskot. overflow:hidden penting supaya animasi transisi
+   identitas (lihat di bawah) benar-benar "menghilang dari frame"
+   saat karakter turun keluar. */
+.char-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--color-white);
+}
+
+.char-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  user-select: none;
+}
+
+/* ---------- DIALOGUE PORTRAIT — KARAKTER LEPAS (INTRO / MISSION) ----------
+   .dialogue-portrait dipakai HANYA untuk karakter di screen intro & mission
+   (lihat index.html #intro-portrait / #mission-portrait). Di sini karakter
+   harus tampil sebagai siluet PNG transparan yang menyatu dengan background
+   underwater — bukan avatar kotak seperti char-badge / mascot-avatar-visual
+   yang tetap memakai .char-visual apa adanya. Selector 2-class di bawah ini
+   (.dialogue-portrait.char-visual) sengaja lebih spesifik daripada
+   .char-visual saja supaya override ini selalu menang, terlepas urutan file. */
+.dialogue-portrait.char-visual {
+  display: block;
+  overflow: visible;
+  background: transparent;
+  /* width/height ukuran sebenarnya diatur di layout.css (.dialogue-portrait)
+     supaya satu-satunya sumber kebenaran untuk sizing tetap di sana. */
+}
+
+.dialogue-portrait .char-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* drop-shadow, bukan box-shadow, supaya bayangan mengikuti siluet
+     transparan karakter dan tetap natural saat karakter berganti. */
+  filter: drop-shadow(0 18px 16px rgba(7, 48, 66, 0.35));
+}
+
+/* ---------- REAKSI JAWABAN (simulasi ekspresi lewat animasi) ----------
+   Karakter cuma punya 1 gambar (pose netral), jadi "senang" dan
+   "kecewa ringan" disimulasikan lewat animasi CSS pada gambar itu
+   sendiri, BUKAN dengan mengganti gambar. Terpisah dari animasi
+   transisi ganti-identitas di bawah. */
+.char-visual--happy .char-img {
+  animation: charHappyBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes charHappyBounce {
+  0% {
+    transform: scale(1) translateY(0);
+  }
+  32% {
+    transform: scale(1.09) translateY(-7px);
+  }
+  55% {
+    transform: scale(0.97) translateY(2px);
+  }
+  78% {
+    transform: scale(1.03) translateY(-2px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+.char-visual--happy::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 60%) 18% 22% / 22% 22% no-repeat,
+    radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 60%) 82% 62% / 16% 16% no-repeat;
+  opacity: 0;
+  animation: charSparkle 0.6s ease-out;
+}
+
+@keyframes charSparkle {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+}
+
+.char-visual--sad .char-img {
+  animation: charSadWiggle 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes charSadWiggle {
+  0%,
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  20% {
+    transform: translateX(-3px) rotate(-2deg);
+  }
+  40% {
+    transform: translateX(3px) rotate(2deg);
+  }
+  60% {
+    transform: translateX(-2px) rotate(-1deg);
+  }
+  80% {
+    transform: translateX(2px) rotate(1deg);
+  }
+}
+
+/* ---------- TRANSISI GANTI IDENTITAS KARAKTER ----------
+   Dipicu Game.Characters.mount() saat karakter yang tampil di
+   sebuah container berganti (mis. SpongeBob -> Patrick): karakter
+   lama turun + fade out sampai hilang, baru SETELAH itu (tidak
+   overlap) karakter baru muncul dengan pop-up + fade in.
+
+   Hanya pakai transform (translateY, scale) & opacity supaya
+   ringan/smooth di HP. Durasi total ±580ms (keluar 260ms +
+   masuk 320ms), di dalam rentang 500-700ms yang diminta. */
+.char-visual--exit {
+  animation: charSwapExit 0.26s cubic-bezier(0.55, 0, 0.85, 0.35) forwards;
+}
+
+@keyframes charSwapExit {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(42px) scale(0.82);
+  }
+}
+
+.char-visual--enter {
+  animation: charSwapEnter 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes charSwapEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(32px) scale(0.6);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-6px) scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---------- HUD SKOR + KESEHATAN KRUSTY KRAB ---------- */
+.game-hud {
+  position: fixed;
+  top: 0.8rem;
+  left: 0.8rem;
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: rgba(255, 253, 246, 0.94);
+  border-radius: var(--radius-md);
+  padding: 0.6em 0.9em;
+  box-shadow: var(--shadow-soft);
+  min-width: 168px;
+  pointer-events: none;
+}
+
+.game-hud--hidden {
+  display: none;
+}
+
+.hud-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+.hud-score-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--color-abyss);
+}
+
+.hud-score-value {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--color-ocean-deep);
+}
+
+.hud-health-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #5c7784;
+}
+
+.hud-health-track {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: #f0e2bd;
+  overflow: hidden;
+  border: 1px solid rgba(7, 48, 66, 0.08);
+}
+
+.hud-health-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--color-coral), var(--color-sun), var(--color-seagrass));
+  transition: width 0.5s ease;
+}
+
+/* ---------- MASKOT PEMANDU (SpongeBob) ---------- */
+.mascot-widget {
+  position: fixed;
+  right: 0.8rem;
+  bottom: 0.8rem;
+  z-index: 30;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5em;
+  cursor: pointer;
+}
+
+.mascot-widget--hidden {
+  display: none;
+}
+
+.mascot-avatar {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 3px solid var(--color-white);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  flex-shrink: 0;
+  animation: mascotBob 2.8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+/* Wrapper dalam terpisah dari .mascot-avatar supaya animasi "bob"
+   mengambang (di atas) dan animasi ganti-identitas/reaksi karakter
+   (dari .char-visual) sama-sama memakai transform tanpa saling
+   menimpa di elemen yang sama. */
+.mascot-avatar-visual {
+  width: 100%;
+  height: 100%;
+}
+
+.mascot-bubble {
+  position: relative;
+  max-width: 180px;
+  background: var(--color-white);
+  color: var(--color-abyss);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.55em 0.8em;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 0.6em;
+}
+
+.mascot-bubble::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  bottom: -8px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--color-white);
+}
+
+.mascot-bubble--hidden {
+  display: none;
+}
+
+.mascot-bubble--pop {
+  animation: mascotPop 0.36s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes mascotPop {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.85);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes mascotBob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* ---------- PORTRAIT KARAKTER DI LAYAR KUIS ---------- */
+.quiz-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.quiz-portrait {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  border: 3px solid var(--color-white);
+  box-shadow: var(--shadow-soft);
+  flex-shrink: 0;
+}
+
+/* ---------- EFEK FEEDBACK KUIS ---------- */
+.quiz-option-wrap {
+  position: relative;
+}
+
+.quiz-option--shake {
+  animation: shakeCard 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+.answer-bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.95),
+    rgba(79, 195, 232, 0.35) 70%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: bubblePop 0.62s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  z-index: 3;
+}
+
+@keyframes bubblePop {
+  0% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(0.4);
+  }
+  35% {
+    opacity: 1;
+    transform: translate(
+        calc(-50% + var(--dx) * 0.5),
+        calc(-50% + var(--dy) * 0.5)
+      )
+      scale(1.05);
+  }
+  70% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.15);
+  }
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 640px) {
+  .game-hud {
+    min-width: 140px;
+    padding: 0.5em 0.7em;
+    top: 3.6rem;
+    left: 0.5rem;
+  }
+
+  .mascot-widget {
+    right: 0.5rem;
+    bottom: 0.5rem;
+  }
+
+  .mascot-avatar {
+    width: 46px;
+    height: 46px;
+  }
+
+  .mascot-bubble {
+    max-width: 140px;
+    font-size: 0.76rem;
+  }
+
+  .quiz-portrait {
+    width: 44px;
+    height: 44px;
+  }
+
+  .quiz-header-row {
+    margin-top: 2.6rem;
+  }
+}

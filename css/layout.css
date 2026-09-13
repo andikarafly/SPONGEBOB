@@ -1,0 +1,264 @@
+/* ============================================================
+   LAYOUT.CSS — struktur tiap screen/section
+   ============================================================ */
+
+.screen {
+  display: none;
+  min-height: 100vh;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4) var(--space-2) var(--space-5);
+  position: relative;
+}
+
+.screen--active {
+  display: flex;
+}
+
+/* ---------- TITLE SCREEN ---------- */
+.screen--title {
+  text-align: center;
+}
+
+.title-card {
+  max-width: 640px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.title-eyebrow {
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--color-white);
+  opacity: 0.85;
+  font-size: 0.95rem;
+}
+
+.title-heading {
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  color: var(--color-white);
+  text-shadow: 0 4px 0 rgba(7, 48, 66, 0.3);
+}
+
+.title-heading__accent {
+  color: var(--color-sun);
+}
+
+.title-sub {
+  color: var(--color-white);
+  font-size: 1.05rem;
+  max-width: 52ch;
+}
+
+.title-characters {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: var(--space-1) 0;
+}
+
+/* ---------- DIALOGUE / INTRO / MISSION ---------- */
+.screen--intro,
+.screen--mission {
+  align-items: center;
+}
+
+.dialogue-stage {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Tanpa gap: jarak antara karakter & card sekarang dikendalikan lewat
+     margin-bottom negatif pada .dialogue-portrait supaya keduanya overlap. */
+  gap: 0;
+}
+
+.dialogue-stage--compact {
+  margin-bottom: var(--space-3);
+}
+
+/* Karakter: lepas dari kotak, besar, dan "berdiri" overlap di atas
+   dialogue-box (lihat mascot-hud.css untuk override background/overflow
+   dari .char-visual dan drop-shadow siluet pada .char-img). */
+.dialogue-portrait {
+  width: clamp(240px, 55%, 380px);
+  /* Kedua PNG karakter (spongebob.png / patrick.png) berukuran 480x480,
+     jadi aspect-ratio 1/1 sudah pas untuk keduanya dan mencegah layout
+     "loncat" saat gambar baru selesai dimuat. */
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  margin: 0 auto -64px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.dialogue-box {
+  position: relative;
+  z-index: 2;
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-3) var(--space-3);
+  box-shadow: var(--shadow-soft);
+  width: 100%;
+}
+
+.dialogue-speaker {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--color-ocean);
+  margin-bottom: var(--space-1);
+}
+
+.dialogue-text {
+  font-size: 1.05rem;
+  color: var(--color-abyss);
+  min-height: 3.2em;
+}
+
+.dialogue-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.dialogue-hint {
+  font-size: 0.85rem;
+  color: #6b8794;
+}
+
+/* ---------- GENERIC PANEL (matching / mission / quiz / result) ---------- */
+.panel {
+  width: 100%;
+  max-width: 640px;
+  background: var(--color-sand);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-soft);
+}
+
+.panel--wide {
+  max-width: 780px;
+}
+
+.panel-title {
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+  color: var(--color-abyss);
+  margin-bottom: var(--space-1);
+}
+
+.panel-sub {
+  color: #3d5b68;
+  margin-bottom: var(--space-3);
+  font-size: 1rem;
+}
+
+/* ---------- MATCHING SCREEN ---------- */
+.matching-board {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.matching-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.matching-status {
+  text-align: center;
+  font-weight: 600;
+  color: var(--color-ocean-deep);
+  margin-bottom: var(--space-3);
+}
+
+/* ---------- MISSION SCREEN ---------- */
+.mission-eyebrow {
+  font-weight: 700;
+  color: var(--color-ocean);
+  margin-bottom: var(--space-1);
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- QUIZ SCREEN ---------- */
+.screen--quiz .panel {
+  max-width: 640px;
+}
+
+.quiz-question {
+  font-size: clamp(1.15rem, 3.6vw, 1.5rem);
+  margin-bottom: var(--space-3);
+  color: var(--color-abyss);
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+/* ---------- RESULT SCREEN ---------- */
+.score-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.framework-directory {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: var(--space-3) 0;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 640px) {
+  .screen {
+    padding: var(--space-3) var(--space-2) var(--space-4);
+  }
+
+  .panel {
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+  }
+
+  .matching-board {
+    gap: var(--space-1);
+  }
+
+  .score-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dialogue-portrait {
+    width: clamp(170px, 52%, 260px);
+    margin-bottom: -40px;
+  }
+
+  .dialogue-box {
+    padding-top: var(--space-3);
+  }
+}
+
+@media (max-width: 400px) {
+  .score-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dialogue-portrait {
+    width: clamp(150px, 50%, 210px);
+    margin-bottom: -30px;
+  }
+}

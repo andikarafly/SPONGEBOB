@@ -1,0 +1,317 @@
+/* ============================================================
+   COMPONENTS.CSS — card, button, progress bar, modal feedback
+   ============================================================ */
+
+/* ---------- BUTTONS ---------- */
+.btn {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.85em 1.6em;
+  border-radius: 999px;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.btn--primary {
+  background: var(--color-sun);
+  color: var(--color-abyss);
+  box-shadow: var(--shadow-pop);
+}
+
+.btn--primary:hover {
+  transform: translateY(-2px);
+}
+
+.btn--primary:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(7, 48, 66, 0.25);
+}
+
+.btn--large {
+  padding: 1em 2.2em;
+  font-size: 1.1rem;
+}
+
+.btn--hidden {
+  display: none;
+}
+
+/* ---------- PROGRESS BAR ---------- */
+.progress-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.7rem var(--space-2);
+  background: linear-gradient(180deg, rgba(7, 48, 66, 0.55), transparent);
+  pointer-events: none;
+}
+
+.progress--hidden {
+  display: none;
+}
+
+.progress-track {
+  width: min(420px, 90vw);
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--color-sun);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.progress-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-white);
+  text-shadow: 0 1px 3px rgba(7, 48, 66, 0.5);
+}
+
+/* ---------- CHARACTER BADGES (title screen) ----------
+   Sekarang berfungsi sebagai container untuk gambar karakter asli
+   (lihat js/core/characters.js + .char-visual di mascot-hud.css).
+   Warna solid lama dipertahankan hanya sebagai fallback jika
+   gambar gagal dimuat. Cast sudah disederhanakan: SpongeBob & Patrick. */
+.char-badge {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  border: 3px solid var(--color-white);
+  box-shadow: var(--shadow-soft);
+}
+
+.char-badge--spongebob {
+  background: var(--color-sun);
+}
+.char-badge--patrick {
+  background: #ff9ab5;
+}
+
+/* ---------- DIALOGUE PORTRAITS ----------
+   Container untuk gambar karakter asli (lihat js/core/characters.js).
+   Sengaja TANPA background/border/border-radius/box-shadow — karakter
+   (PNG transparan) harus tampil sebagai siluet lepas yang menyatu
+   dengan scene, bukan kotak/stiker avatar. Ukuran, overlap dengan
+   dialogue-box, dan drop-shadow siluet diatur di layout.css +
+   mascot-hud.css (lihat blok "DIALOGUE PORTRAIT — KARAKTER LEPAS"). */
+.dialogue-portrait {
+  position: relative;
+}
+
+.portrait--spongebob,
+.portrait--patrick {
+  background: transparent;
+}
+
+/* ---------- MATCHING CARDS ---------- */
+.match-card {
+  background: var(--color-white);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  padding: 0.9em 1em;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: left;
+  box-shadow: 0 4px 0 rgba(7, 48, 66, 0.12);
+  transition: transform 0.12s ease, border-color 0.15s ease, background 0.15s ease;
+  width: 100%;
+}
+
+.match-card:hover {
+  transform: translateY(-2px);
+}
+
+.match-card--selected {
+  border-color: var(--color-ocean);
+  background: #eaf7ff;
+}
+
+.match-card--matched {
+  border-color: var(--color-seagrass);
+  background: #e4f7f1;
+  color: var(--color-seagrass);
+  cursor: default;
+  transform: none;
+}
+
+.match-card--wrong {
+  border-color: var(--color-coral);
+  background: #ffece9;
+  animation: shakeCard 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+/* ---------- QUIZ OPTIONS ---------- */
+.quiz-option {
+  background: var(--color-white);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  padding: 0.9em 1.1em;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.98rem;
+  width: 100%;
+  box-shadow: 0 4px 0 rgba(7, 48, 66, 0.12);
+  transition: transform 0.12s ease, border-color 0.15s ease;
+}
+
+.quiz-option:hover {
+  transform: translateY(-2px);
+}
+
+.quiz-option--correct {
+  border-color: var(--color-seagrass);
+  background: #e4f7f1;
+}
+
+.quiz-option--incorrect {
+  border-color: var(--color-coral);
+  background: #ffece9;
+}
+
+.quiz-option--disabled {
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+/* ---------- FEEDBACK BOX ---------- */
+.feedback-box {
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  box-shadow: var(--shadow-soft);
+  margin-top: var(--space-2);
+}
+
+.feedback-box--hidden {
+  display: none;
+}
+
+.feedback-verdict {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 0.4em;
+}
+
+.feedback-verdict--correct {
+  color: var(--color-seagrass);
+}
+
+.feedback-verdict--incorrect {
+  color: var(--color-coral);
+}
+
+.feedback-explanation {
+  color: var(--color-abyss);
+  margin-bottom: var(--space-2);
+  font-size: 0.98rem;
+}
+
+/* ---------- SCORE CARDS (result screen) ---------- */
+.score-card {
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+  box-shadow: 0 4px 0 rgba(7, 48, 66, 0.1);
+  border-top: 6px solid var(--score-color, var(--color-ocean));
+}
+
+.score-card__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.2em;
+}
+
+.score-card__value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-abyss);
+}
+
+.score-card__bar-track {
+  height: 8px;
+  border-radius: 999px;
+  background: #eee2c4;
+  margin-top: 0.5em;
+  overflow: hidden;
+}
+
+.score-card__bar-fill {
+  height: 100%;
+  background: var(--score-color, var(--color-ocean));
+  border-radius: 999px;
+}
+
+/* ---------- RECOMMENDATION CARD ---------- */
+.recommendation-card {
+  background: linear-gradient(135deg, #fff6dc, var(--color-white));
+  border: 2px solid var(--color-sun);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  box-shadow: var(--shadow-soft);
+}
+
+.recommendation-headline {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--color-ocean-deep);
+  margin-bottom: 0.5em;
+}
+
+.recommendation-body {
+  margin-bottom: 0.8em;
+  color: var(--color-abyss);
+}
+
+.recommendation-note {
+  font-size: 0.9rem;
+  color: #5c7784;
+  font-style: italic;
+}
+
+/* ---------- FRAMEWORK DIRECTORY (result screen mini cards) ---------- */
+.framework-item {
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+  box-shadow: 0 4px 0 rgba(7, 48, 66, 0.1);
+  border-left: 6px solid var(--fw-color, var(--color-ocean));
+}
+
+.framework-item__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin-bottom: 0.1em;
+}
+
+.framework-item__focus {
+  font-size: 0.85rem;
+  color: var(--color-ocean);
+  font-weight: 600;
+  margin-bottom: 0.4em;
+}
+
+.framework-item__desc {
+  font-size: 0.92rem;
+  color: #3d5b68;
+  margin-bottom: 0.3em;
+}
+
+.framework-item__best {
+  font-size: 0.85rem;
+  color: #6b8794;
+}

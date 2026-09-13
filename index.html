@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+<title>SpongeBob's IT Governance Crisis</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+/>
+
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/layout.css" />
+<link rel="stylesheet" href="css/components.css" />
+<link rel="stylesheet" href="css/animations.css" />
+<link rel="stylesheet" href="css/mascot-hud.css" />
+</head>
+<body>
+
+<!-- Dekorasi gelembung mengambang (global, di belakang semua screen) -->
+<div class="bubble-field" id="bubble-field" aria-hidden="true"></div>
+
+<!-- HUD skor real-time + kesehatan Krusty Krab (tampil mulai misi 1) -->
+<div class="game-hud game-hud--hidden" id="game-hud" aria-hidden="true">
+  <div class="hud-row">
+    <span class="hud-score-label">Skor</span>
+    <span class="hud-score-value" id="hud-score-value">0 / 12</span>
+  </div>
+  <span class="hud-health-label" id="hud-health-label">Krusty Krab dalam bahaya</span>
+  <div class="hud-health-track">
+    <div class="hud-health-fill" id="hud-health-fill"></div>
+  </div>
+</div>
+
+<!-- Maskot pemandu (SpongeBob/Patrick bergantian) (tampil di semua screen setelah intro) -->
+<div class="mascot-widget mascot-widget--hidden" id="game-mascot" aria-hidden="true">
+  <div class="mascot-bubble mascot-bubble--hidden" id="mascot-bubble">
+    <p id="mascot-bubble-text">Ayo kita mulai!</p>
+  </div>
+  <div class="mascot-avatar" id="mascot-avatar">
+    <div class="mascot-avatar-visual" id="mascot-avatar-visual"></div>
+  </div>
+</div>
+
+<!-- Progress bar mengambang di atas -->
+<div class="progress-wrapper progress--hidden" id="progress-wrapper">
+  <div class="progress-track">
+    <div class="progress-fill" id="progress-bar-fill"></div>
+  </div>
+  <span class="progress-label" id="progress-label">Langkah 1 dari 7</span>
+</div>
+
+<main id="app">
+
+  <!-- ============ TITLE SCREEN ============ -->
+  <section id="screen-title" class="screen screen--active screen--title">
+    <div class="seaweed seaweed--left" aria-hidden="true"></div>
+    <div class="seaweed seaweed--right" aria-hidden="true"></div>
+
+    <div class="title-card">
+      <p class="title-eyebrow">Sebuah simulasi konsultasi IT Governance</p>
+      <h1 class="title-heading">
+        SpongeBob's<br /><span class="title-heading__accent">IT Governance Crisis</span>
+      </h1>
+      <p class="title-sub">
+        Krusty Krab kacau balau: pesanan online berantakan, data pelanggan
+        terancam bocor, kas selisih, dan rencana ekspansi Mr. Krabs jalan
+        sendiri tanpa arah. Kamu dipanggil sebagai konsultan IT Governance
+        untuk membantu memilih framework yang tepat untuk tiap masalah.
+      </p>
+
+      <div class="title-characters" aria-hidden="true">
+        <div class="char-badge char-badge--spongebob"></div>
+        <div class="char-badge char-badge--patrick"></div>
+      </div>
+
+      <button class="btn btn--primary btn--large" id="btn-start-game">
+        Mulai Konsultasi
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ INTRO SCREEN ============ -->
+  <section id="screen-intro" class="screen screen--intro">
+    <div class="dialogue-stage">
+      <div class="dialogue-portrait" id="intro-portrait" aria-hidden="true"></div>
+      <div class="dialogue-box">
+        <p class="dialogue-speaker" id="intro-speaker">SpongeBob</p>
+        <p class="dialogue-text" id="intro-text">...</p>
+        <div class="dialogue-actions">
+          <span class="dialogue-hint" id="intro-hint"></span>
+          <button class="btn btn--primary" id="btn-intro-next">Lanjut</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MATCHING SCREEN ============ -->
+  <section id="screen-matching" class="screen screen--matching">
+    <div class="panel">
+      <h2 class="panel-title">Kenali Dulu Framework-nya</h2>
+      <p class="panel-sub">
+        Sebelum turun ke lapangan, pasangkan tiap framework dengan fokus
+        utamanya. Klik satu kartu di kiri, lalu klik pasangannya di kanan.
+      </p>
+
+      <div class="matching-board">
+        <div class="matching-column" id="matching-left"></div>
+        <div class="matching-column" id="matching-right"></div>
+      </div>
+
+      <p class="matching-status" id="matching-status">0 dari 4 pasangan cocok</p>
+
+      <button class="btn btn--primary btn--large btn--hidden" id="btn-matching-continue">
+        Lanjut ke Misi Pertama
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ MISSION / CASE SCREEN ============ -->
+  <section id="screen-mission" class="screen screen--mission">
+    <div class="panel">
+      <p class="mission-eyebrow" id="mission-eyebrow">Misi 1 dari 4</p>
+      <h2 class="panel-title" id="mission-title">Judul Misi</h2>
+
+      <div class="dialogue-stage dialogue-stage--compact">
+        <div class="dialogue-portrait" id="mission-portrait" aria-hidden="true"></div>
+        <div class="dialogue-box">
+          <p class="dialogue-speaker" id="mission-speaker">SpongeBob</p>
+          <p class="dialogue-text" id="mission-text">...</p>
+        </div>
+      </div>
+
+      <button class="btn btn--primary btn--large" id="btn-mission-continue">
+        Mulai Analisis
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ QUIZ SCREEN ============ -->
+  <section id="screen-quiz" class="screen screen--quiz">
+    <div class="panel">
+      <div class="quiz-header-row">
+        <div>
+          <p class="mission-eyebrow" id="quiz-eyebrow">Misi 1 · Soal 1 dari 3</p>
+          <h2 class="quiz-question" id="quiz-question">Pertanyaan...</h2>
+        </div>
+        <div class="quiz-portrait" id="quiz-portrait" aria-hidden="true"></div>
+      </div>
+
+      <div class="quiz-options" id="quiz-options"></div>
+
+      <div class="feedback-box feedback-box--hidden" id="quiz-feedback">
+        <p class="feedback-verdict" id="quiz-verdict">Benar!</p>
+        <p class="feedback-explanation" id="quiz-explanation">Penjelasan...</p>
+        <button class="btn btn--primary" id="btn-quiz-next">Lanjut</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RESULT SCREEN ============ -->
+  <section id="screen-result" class="screen screen--result">
+    <div class="panel panel--wide">
+      <h2 class="panel-title">Laporan Akhir Konsultasi</h2>
+      <p class="panel-sub" id="result-summary-line">
+        Kamu menjawab benar sekian dari 12 soal.
+      </p>
+
+      <div class="score-grid" id="score-grid"></div>
+
+      <div class="recommendation-card" id="recommendation-card">
+        <p class="recommendation-headline" id="recommendation-headline">
+          Rekomendasi Utama: COBIT
+        </p>
+        <p class="recommendation-body" id="recommendation-body"></p>
+        <p class="recommendation-note" id="recommendation-note"></p>
+      </div>
+
+      <div class="framework-directory" id="framework-directory"></div>
+
+      <button class="btn btn--primary btn--large" id="btn-play-again">
+        Main Lagi
+      </button>
+    </div>
+  </section>
+
+</main>
+
+<!-- ====== DATA ====== -->
+<script src="js/data/questions.js"></script>
+<script src="js/data/matching.js"></script>
+<script src="js/data/frameworks.js"></script>
+
+<!-- ====== CORE ====== -->
+<script src="js/core/state.js"></script>
+<script src="js/core/navigation.js"></script>
+<script src="js/core/scoring.js"></script>
+<script src="js/core/characters.js"></script>
+<script src="js/core/mascot.js"></script>
+<script src="js/core/hud.js"></script>
+<script src="js/core/effects.js"></script>
+
+<!-- ====== SCREENS ====== -->
+<script src="js/screens/title.js"></script>
+<script src="js/screens/intro.js"></script>
+<script src="js/screens/matching.js"></script>
+<script src="js/screens/mission.js"></script>
+<script src="js/screens/quiz.js"></script>
+<script src="js/screens/result.js"></script>
+
+<!-- ====== ENTRY POINT ====== -->
+<script src="js/main.js"></script>
+
+</body>
+</html>

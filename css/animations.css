@@ -1,0 +1,137 @@
+/* ============================================================
+   ANIMATIONS.CSS — bubble mengambang, transisi antar screen
+   ============================================================ */
+
+/* ---------- BUBBLE FIELD (dekoratif, latar belakang) ---------- */
+.bubble-field {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bubble {
+  position: absolute;
+  bottom: -10%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.85),
+    rgba(255, 255, 255, 0.15) 70%
+  );
+  animation: floatBubble linear infinite;
+  opacity: 0.7;
+}
+
+@keyframes floatBubble {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-115vh) translateX(var(--drift, 20px));
+    opacity: 0;
+  }
+}
+
+/* ---------- SEAWEED (dekoratif pinggir layar, title screen) ---------- */
+.seaweed {
+  position: absolute;
+  bottom: 0;
+  width: 70px;
+  height: 220px;
+  background: linear-gradient(180deg, #2fa88a, #1f7a63);
+  border-radius: 40px 40px 0 0;
+  opacity: 0.55;
+  transform-origin: bottom center;
+  animation: swayWeed 4.5s ease-in-out infinite;
+  z-index: 0;
+}
+
+.seaweed--left {
+  left: 4%;
+}
+
+.seaweed--right {
+  right: 4%;
+  animation-delay: 1.2s;
+}
+
+@keyframes swayWeed {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+/* ---------- SCREEN TRANSITION ---------- */
+.screen--active {
+  animation: fadeInScreen 0.35s ease;
+}
+
+@keyframes fadeInScreen {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- MATCH CARD / QUIZ OPTION WRONG SHAKE ----------
+   Shake dengan sedikit rotasi & redaman bertahap supaya terasa
+   lebih natural/bouncy (bukan cuma bolak-balik linear). */
+@keyframes shakeCard {
+  0% {
+    transform: translateX(0) rotate(0deg);
+  }
+  15% {
+    transform: translateX(-8px) rotate(-1.2deg);
+  }
+  30% {
+    transform: translateX(7px) rotate(1.2deg);
+  }
+  45% {
+    transform: translateX(-5px) rotate(-0.7deg);
+  }
+  60% {
+    transform: translateX(4px) rotate(0.7deg);
+  }
+  75% {
+    transform: translateX(-2px) rotate(-0.3deg);
+  }
+  90% {
+    transform: translateX(1px) rotate(0deg);
+  }
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+}
+
+/* ---------- FEEDBACK BOX REVEAL ---------- */
+.feedback-box:not(.feedback-box--hidden) {
+  animation: revealFeedback 0.25s ease;
+}
+
+@keyframes revealFeedback {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -43,11 +43,28 @@ window.Game = window.Game || {};
       const item = document.createElement("div");
       item.className = "framework-item";
       item.style.setProperty("--fw-color", fw.color);
+      const strengthsList = (fw.strengths || [])
+        .map((s) => `<li>${s}</li>`)
+        .join("");
+      const weaknessesList = (fw.weaknesses || [])
+        .map((w) => `<li>${w}</li>`)
+        .join("");
+
       item.innerHTML = `
         <p class="framework-item__name">${fw.name}</p>
         <p class="framework-item__focus">${fw.focus}</p>
         <p class="framework-item__desc">${fw.description}</p>
         <p class="framework-item__best">${fw.bestFor}</p>
+        <div class="framework-item__pros-cons">
+          <div class="framework-item__pros">
+            <p class="framework-item__pros-cons-label">Kelebihan</p>
+            <ul class="framework-item__pros-list">${strengthsList}</ul>
+          </div>
+          <div class="framework-item__cons">
+            <p class="framework-item__pros-cons-label">Kekurangan</p>
+            <ul class="framework-item__cons-list">${weaknessesList}</ul>
+          </div>
+        </div>
       `;
       wrap.appendChild(item);
     });

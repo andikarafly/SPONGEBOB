@@ -314,3 +314,74 @@
   font-size: 0.85rem;
   color: #6b8794;
 }
+
+.framework-item__pros-cons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2, 0.8em);
+  margin-top: 0.6em;
+  padding-top: 0.5em;
+  border-top: 1px dashed rgba(7, 48, 66, 0.15);
+}
+
+.framework-item__pros-cons-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.3em;
+}
+
+.framework-item__pros .framework-item__pros-cons-label {
+  color: #2e9e5b;
+}
+
+.framework-item__cons .framework-item__pros-cons-label {
+  color: #d9822b;
+}
+
+.framework-item__pros-list,
+.framework-item__cons-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.82rem;
+  color: #3d5b68;
+}
+
+.framework-item__pros-list li,
+.framework-item__cons-list li {
+  position: relative;
+  padding-left: 1.1em;
+  margin-bottom: 0.3em;
+  line-height: 1.3;
+}
+
+.framework-item__pros-list li:last-child,
+.framework-item__cons-list li:last-child {
+  margin-bottom: 0;
+}
+
+.framework-item__pros-list li::before {
+  content: "●";
+  position: absolute;
+  left: 0;
+  color: #2e9e5b;
+  font-size: 0.7em;
+  top: 0.3em;
+}
+
+.framework-item__cons-list li::before {
+  content: "●";
+  position: absolute;
+  left: 0;
+  color: #d9822b;
+  font-size: 0.7em;
+  top: 0.3em;
+}
+
+@media (max-width: 520px) {
+  .framework-item__pros-cons {
+    grid-template-columns: 1fr;
+  }
+}

@@ -19,6 +19,11 @@ window.Game = window.Game || {};
   function init() {
     mountCharacterBadges();
 
+    // BGM mulai dari title screen. playBGM() aman dipanggil berkali-kali
+    // (misalnya saat "Main Lagi" kembali ke title) karena tidak akan
+    // me-restart BGM yang sudah berjalan.
+    window.Game.Audio.playBGM();
+
     const btnStart = document.getElementById("btn-start-game");
     btnStart.addEventListener("click", () => {
       // Maskot & HUD baru muncul setelah intro / mulai dari misi pertama

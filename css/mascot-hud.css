@@ -32,10 +32,12 @@
    .dialogue-portrait dipakai HANYA untuk karakter di screen intro & mission
    (lihat index.html #intro-portrait / #mission-portrait). Di sini karakter
    harus tampil sebagai siluet PNG transparan yang menyatu dengan background
-   underwater — bukan avatar kotak seperti char-badge / mascot-avatar-visual
-   yang tetap memakai .char-visual apa adanya. Selector 2-class di bawah ini
-   (.dialogue-portrait.char-visual) sengaja lebih spesifik daripada
-   .char-visual saja supaya override ini selalu menang, terlepas urutan file. */
+   underwater — bukan avatar bulat kotak seperti .mascot-avatar-visual (badge
+   HUD maskot mengambang) yang tetap memakai .char-visual apa adanya.
+   .char-badge (title screen) dan .quiz-portrait (kuis) punya override serupa
+   di bawah. Selector 2-class di bawah ini (.dialogue-portrait.char-visual)
+   sengaja lebih spesifik daripada .char-visual saja supaya override ini
+   selalu menang, terlepas urutan file. */
 .dialogue-portrait.char-visual {
   display: block;
   overflow: visible;
@@ -51,6 +53,30 @@
   /* drop-shadow, bukan box-shadow, supaya bayangan mengikuti siluet
      transparan karakter dan tetap natural saat karakter berganti. */
   filter: drop-shadow(0 18px 16px rgba(7, 48, 66, 0.35));
+}
+
+/* ---------- CHAR BADGE — KARAKTER LEPAS (TITLE SCREEN) ----------
+   Sama seperti .dialogue-portrait: badge title screen sekarang juga
+   HANYA membungkus gambar, tanpa background/border/border-radius,
+   supaya siluet PNG transparan menyatu dengan scene underwater,
+   bukan kotak/stiker avatar. Selector 2-class (.char-badge.char-visual)
+   sengaja lebih spesifik daripada .char-visual saja supaya override
+   ini selalu menang, terlepas urutan file (pola sama seperti
+   .dialogue-portrait.char-visual di atas). */
+.char-badge.char-visual {
+  overflow: visible;
+  background: transparent;
+}
+
+.char-badge .char-img {
+  filter: drop-shadow(0 14px 12px rgba(7, 48, 66, 0.35));
+}
+
+/* Karakter di title screen sekarang jauh lebih besar (lihat .title-mascot
+   di layout.css), jadi drop-shadow siluetnya diskalakan naik supaya tetap
+   proporsional & terasa "berpijak", bukan sekadar override generic di atas. */
+.title-mascot .char-badge .char-img {
+  filter: drop-shadow(0 26px 22px rgba(7, 48, 66, 0.4));
 }
 
 /* ---------- REAKSI JAWABAN (simulasi ekspresi lewat animasi) ----------
@@ -340,13 +366,25 @@
   gap: var(--space-2);
 }
 
+/* Sama seperti .dialogue-portrait / .char-badge: TANPA
+   background/border/border-radius/box-shadow supaya karakter (PNG
+   transparan) menyatu dengan panel, bukan kotak avatar. Override
+   .char-visual lewat .quiz-portrait.char-visual (pola yang sama,
+   selalu menang terlepas urutan file), dan drop-shadow siluet
+   ditaruh di .char-img-nya, bukan box-shadow di container. */
 .quiz-portrait {
-  width: 56px;
-  height: 56px;
-  border-radius: var(--radius-sm);
-  border: 3px solid var(--color-white);
-  box-shadow: var(--shadow-soft);
+  width: 92px;
+  height: 92px;
   flex-shrink: 0;
+}
+
+.quiz-portrait.char-visual {
+  overflow: visible;
+  background: transparent;
+}
+
+.quiz-portrait .char-img {
+  filter: drop-shadow(0 10px 10px rgba(7, 48, 66, 0.35));
 }
 
 /* ---------- EFEK FEEDBACK KUIS ---------- */
@@ -420,11 +458,12 @@
   }
 
   .quiz-portrait {
-    width: 44px;
-    height: 44px;
+    width: 68px;
+    height: 68px;
   }
 
-  .quiz-header-row {
-    margin-top: 2.6rem;
+  .char-badge {
+    width: 96px;
+    height: 96px;
   }
 }

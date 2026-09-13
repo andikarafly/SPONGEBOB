@@ -81,6 +81,9 @@ window.Game = window.Game || {};
     if (isCorrect) {
       window.Game.State.addScore(question.framework, 1);
       window.Game.State.incrementCorrect();
+      window.Game.Audio.playCorrect();
+    } else {
+      window.Game.Audio.playWrong();
     }
 
     // Reaksi maskot SpongeBob + portrait karakter kasus misi ini

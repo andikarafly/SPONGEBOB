@@ -57,8 +57,32 @@
 
   <!-- ============ TITLE SCREEN ============ -->
   <section id="screen-title" class="screen screen--active screen--title">
+    <!-- Rumput laut: 2 lapis (depan + belakang) untuk kesan kedalaman -->
     <div class="seaweed seaweed--left" aria-hidden="true"></div>
     <div class="seaweed seaweed--right" aria-hidden="true"></div>
+    <div class="seaweed seaweed--left-2" aria-hidden="true"></div>
+    <div class="seaweed seaweed--right-2" aria-hidden="true"></div>
+
+    <!-- Karang di pojok bawah kiri-kanan -->
+    <div class="coral coral--left" aria-hidden="true"></div>
+    <div class="coral coral--right" aria-hidden="true"></div>
+
+    <!-- Ikan kecil yang sesekali berenang lewat, ambient di background -->
+    <div class="title-fish-field" aria-hidden="true">
+      <span class="title-fish title-fish--1"></span>
+      <span class="title-fish title-fish--2"></span>
+      <span class="title-fish title-fish--3"></span>
+      <span class="title-fish title-fish--4"></span>
+    </div>
+
+    <!-- SpongeBob & Patrick: elemen visual utama, besar, "menyambut" dari
+         kanan-kiri bawah layar (lihat .title-mascot di css/layout.css) -->
+    <div class="title-mascot title-mascot--spongebob" aria-hidden="true">
+      <div class="char-badge char-badge--spongebob"></div>
+    </div>
+    <div class="title-mascot title-mascot--patrick" aria-hidden="true">
+      <div class="char-badge char-badge--patrick"></div>
+    </div>
 
     <div class="title-card">
       <p class="title-eyebrow">Sebuah simulasi konsultasi IT Governance</p>
@@ -71,11 +95,6 @@
         sendiri tanpa arah. Kamu dipanggil sebagai konsultan IT Governance
         untuk membantu memilih framework yang tepat untuk tiap masalah.
       </p>
-
-      <div class="title-characters" aria-hidden="true">
-        <div class="char-badge char-badge--spongebob"></div>
-        <div class="char-badge char-badge--patrick"></div>
-      </div>
 
       <button class="btn btn--primary btn--large" id="btn-start-game">
         Mulai Konsultasi
@@ -202,6 +221,7 @@
 <script src="js/core/mascot.js"></script>
 <script src="js/core/hud.js"></script>
 <script src="js/core/effects.js"></script>
+<script src="js/core/audio.js"></script>
 
 <!-- ====== SCREENS ====== -->
 <script src="js/screens/title.js"></script>

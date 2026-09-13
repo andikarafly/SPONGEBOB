@@ -82,21 +82,20 @@
 /* ---------- CHARACTER BADGES (title screen) ----------
    Sekarang berfungsi sebagai container untuk gambar karakter asli
    (lihat js/core/characters.js + .char-visual di mascot-hud.css).
-   Warna solid lama dipertahankan hanya sebagai fallback jika
-   gambar gagal dimuat. Cast sudah disederhanakan: SpongeBob & Patrick. */
+   Sengaja TANPA background/border/border-radius/box-shadow — karakter
+   (PNG transparan) harus tampil sebagai siluet lepas yang menyatu
+   dengan scene title, bukan kotak/stiker avatar (lihat override
+   .char-badge.char-visual + drop-shadow di mascot-hud.css, pola yang
+   sama seperti .dialogue-portrait). Cast sudah disederhanakan:
+   SpongeBob & Patrick. */
 .char-badge {
-  width: 64px;
-  height: 64px;
-  border-radius: 18px;
-  border: 3px solid var(--color-white);
-  box-shadow: var(--shadow-soft);
+  width: 128px;
+  height: 128px;
 }
 
-.char-badge--spongebob {
-  background: var(--color-sun);
-}
+.char-badge--spongebob,
 .char-badge--patrick {
-  background: #ff9ab5;
+  background: transparent;
 }
 
 /* ---------- DIALOGUE PORTRAITS ----------

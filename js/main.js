@@ -34,6 +34,7 @@
 
     window.Game.Mascot.init();
     window.Game.HUD.init();
+    window.Game.Audio.init();
 
     window.Game.Screens.Title.init();
     window.Game.Screens.Intro.init();

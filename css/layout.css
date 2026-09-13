@@ -16,12 +16,36 @@
   display: flex;
 }
 
+/* ---------- JARAK UNTUK PROGRESS BAR TETAP (FIXED) ----------
+   .progress-wrapper (lihat components.css) adalah position:fixed di
+   bagian atas viewport dan tampil di semua screen KECUALI title.
+   Sebelumnya screen-screen ini hanya mengandalkan padding-top umum
+   .screen + flex centering untuk "kebetulan" memberi jarak — cukup
+   di layar tinggi, tapi baris pertama panel (mis. .mission-eyebrow /
+   .quiz-eyebrow) bisa tertimpa progress bar di layar pendek/mobile,
+   apalagi saat label progress bungkus jadi 2 baris. Nilai di bawah
+   sengaja longgar (> tinggi progress bar + jarak aman) supaya kedua
+   teks tidak pernah bertabrakan di ukuran layar manapun. */
+.screen--intro,
+.screen--matching,
+.screen--mission,
+.screen--quiz,
+.screen--result {
+  padding-top: 6.5rem;
+}
+
 /* ---------- TITLE SCREEN ---------- */
 .screen--title {
   text-align: center;
+  overflow: hidden;
 }
 
+/* z-index di atas dekorasi (karang/ikan/rumput laut, semua z-index 0-1)
+   tapi di BAWAH .title-mascot supaya karakter besar bisa overlap "di
+   depan" card (lihat blok MASKOT PENYAMBUT di bawah). */
 .title-card {
+  position: relative;
+  z-index: 2;
   max-width: 640px;
   width: 100%;
   display: flex;
@@ -54,12 +78,37 @@
   max-width: 52ch;
 }
 
-.title-characters {
-  display: flex;
-  gap: var(--space-2);
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: var(--space-1) 0;
+/* ---------- MASKOT PENYAMBUT (SpongeBob & Patrick, title screen) ----------
+   Dulu dua avatar kecil (128px) berjejer di tengah lewat .title-characters
+   di dalam .title-card. Sekarang jadi elemen visual UTAMA: besar, berdiri
+   bebas di pojok kanan/kiri bawah layar seperti sedang menyambut pemain.
+   z-index sengaja lebih tinggi dari .title-card supaya sebagian badan
+   karakter boleh overlap DI DEPAN card untuk kesan lebih dinamis (bukan
+   cuma dekorasi datar di belakang teks). Ukuran gambar sebenarnya tetap
+   dikontrol lewat .char-badge (lihat components.css untuk base 128px yang
+   dipakai di tempat lain) — di sini di-override lebih besar khusus untuk
+   konteks title lewat selector 2 tingkat (.title-mascot .char-badge) yang
+   spesifisitasnya otomatis menang terlepas urutan file. */
+.title-mascot {
+  position: absolute;
+  bottom: clamp(-24px, -3vw, 0px);
+  z-index: 3;
+  pointer-events: none;
+  animation: titleMascotBob 3.4s ease-in-out infinite;
+}
+
+.title-mascot--spongebob {
+  left: clamp(-28px, -1vw, 16px);
+}
+
+.title-mascot--patrick {
+  right: clamp(-28px, -1vw, 16px);
+  animation-delay: 0.9s;
+}
+
+.title-mascot .char-badge {
+  width: clamp(190px, 24vw, 340px);
+  height: clamp(190px, 24vw, 340px);
 }
 
 /* ---------- DIALOGUE / INTRO / MISSION ---------- */
@@ -229,6 +278,18 @@
     padding: var(--space-3) var(--space-2) var(--space-4);
   }
 
+  /* Di layar sempit, label progress ("Langkah X dari 7: ...") lebih
+     mudah bungkus jadi 2 baris, jadi progress bar butuh ruang lebih
+     tinggi. Nilainya dibesarkan lagi supaya tetap tidak menimpa baris
+     pertama panel (mission-eyebrow / quiz-eyebrow) di HP mana pun. */
+  .screen--intro,
+  .screen--matching,
+  .screen--mission,
+  .screen--quiz,
+  .screen--result {
+    padding-top: 7.5rem;
+  }
+
   .panel {
     padding: var(--space-3);
     border-radius: var(--radius-md);
@@ -250,6 +311,27 @@
   .dialogue-box {
     padding-top: var(--space-3);
   }
+
+  /* Karakter title screen dikecilkan jauh & dipindah ke BELAKANG card
+     (z-index turun di bawah .title-card) supaya di HP mereka jadi
+     aksen di pojok bawah, bukan menutupi judul/deskripsi/tombol. */
+  .title-mascot {
+    z-index: 1;
+    bottom: clamp(-6px, -2vw, 6px);
+  }
+
+  .title-mascot--spongebob {
+    left: -8px;
+  }
+
+  .title-mascot--patrick {
+    right: -8px;
+  }
+
+  .title-mascot .char-badge {
+    width: clamp(108px, 30vw, 168px);
+    height: clamp(108px, 30vw, 168px);
+  }
 }
 
 @media (max-width: 400px) {
@@ -260,5 +342,10 @@
   .dialogue-portrait {
     width: clamp(150px, 50%, 210px);
     margin-bottom: -30px;
+  }
+
+  .title-mascot .char-badge {
+    width: clamp(88px, 26vw, 130px);
+    height: clamp(88px, 26vw, 130px);
   }
 }
